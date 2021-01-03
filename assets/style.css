@@ -19,6 +19,7 @@ textarea{
   color: black;
   border-radius: 0;
   border-bottom: 10px solid black;
+  background-color: lightgreen;
 }
 
 .description{
@@ -69,8 +70,3 @@ textarea{
   font-size: 20px;
   transition: all .3s ease-in-out;
 }
-
-.divider { 
-  border-bottom: 2px solid black;
-
-} 
