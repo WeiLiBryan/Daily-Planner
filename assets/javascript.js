@@ -7,7 +7,7 @@ var currentTime = function() {
 
     // Clock located in jumbotron
     currentDay.html(currentMoment.format('dddd, MMMM Do YYYY, h:mm:ss a'));
-}
+};
 
 // Decides what color blocks are based on time
 function blockColor(now) {
