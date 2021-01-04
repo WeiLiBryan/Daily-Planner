@@ -1,13 +1,17 @@
 var currentDay = $("#currentDay");
 
-// Gets current date and sets it to storage
-var today = moment().format('LL');
-localStorage.setItem('date', today);
-
-// Retrieves current time and edits page based on that
+// Retrieves current time and edits page based on that; Is repeated every second
 var currentTime = function() {
     var currentMoment = moment();
-    var hour = currentMoment.format('HH');
+    blockColor(currentMoment);
+
+    // Clock located in jumbotron
+    currentDay.html(currentMoment.format('dddd, MMMM Do YYYY, h:mm:ss a'));
+}
+
+// Decides what color blocks are based on time
+function blockColor(now) {
+    var hour = now.format('HH');
 
     // For loop decides what color blocks are
     for (var k=0; k<9; k++) {
@@ -25,15 +29,14 @@ var currentTime = function() {
         }
 
         // If current hour is before data attribute then set class to future
-        else if (hour < $('#' + k).attr('data-time')){
+        else {
             $('#' + k).removeClass("past present future");
             $('#' + k).addClass("future");
         }
     }
-
-    // Clock located in jumbotron
-    currentDay.html(currentMoment.format('dddd, MMMM Do YYYY, h:mm:ss a'));
 }
+
+
 
 // takes the data value from clicked button then relates it to the corresponding textbox
 // afterward saves it to local storage
@@ -57,17 +60,26 @@ function wipe() {
     }
 }
 
-function isNewDay(){
-    // If today is not the same as the date set in storage then clear
-    var newDay = localStorage.getItem('date');
-    if (newDay != today) {wipe()};
+// Clears textareas and local storage if its a new day
+function dateRefresh() {
+    // Retrieves previous session's date
+    var previous = localStorage.getItem('date');
+
+    if (previous) {
+        // Retrieves current session's date
+        var current = moment().format('LL');
+
+        // If the two arent the same then clear (Only occurs when new day)
+        if (current != previous) {
+            wipe();
+        }
+    }
 }
 
 $(document).ready(function(){
 
-
-    isNewDay();
-
+    // Refreshes webpage if its a new day
+    dateRefresh();
     // sets current time in jumbotron
     currentTime();
     // repeats function so that time is always current
@@ -94,3 +106,11 @@ $(".btn-primary").click(function() {
 
 // Clears schedule once clear is clicked
 $(".clear").click(wipe);
+
+
+// When navigating out of the page saves the current date to local storage
+// Note: tried using jquery but wont work
+window.addEventListener("beforeunload", function(){
+    var date = moment().format('LL');
+    localStorage.setItem('date', date);
+});
