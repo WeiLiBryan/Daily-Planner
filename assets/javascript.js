@@ -14,9 +14,19 @@ function saveTxt(txtBoxNum) {
     console.log("Textbox input: " + text);
 
     localStorage.setItem('timeBlock' + txtBoxNum, text);
-
 }
 
+// Function wipes out all local storage data
+function wipe() {
+
+    // For loop iterates throughout all timeblocks and clears the text
+    for (var j=0; j<9; j++){
+        localStorage.removeItem('timeBlock' + j);
+        
+        // Also wipes textareas
+        $('#' + j).text("");
+    }
+}
 
 $(document).ready(function(){
     // sets current time in jumbotron
@@ -37,7 +47,11 @@ $(document).ready(function(){
 
 // Upon clicking a save button takes clicked button's data then sends it to saveTxt()
 $(".btn-primary").click(function() {
+    // Retrieves data from clicked button
     var buttonNum = $(this).attr('data-button');
     console.log("Button Number: " + buttonNum);
     saveTxt(buttonNum);
 });
+
+// Clears schedule once clear is clicked
+$(".clear").click(wipe);
