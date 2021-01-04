@@ -65,10 +65,11 @@ function dateRefresh() {
     // Retrieves previous session's date
     var previous = localStorage.getItem('date');
 
+    // Retrieves current session's date
+    var current = moment().format('LL');
+    
+    // if previous session exists
     if (previous) {
-        // Retrieves current session's date
-        var current = moment().format('LL');
-
         // If the two arent the same then clear (Only occurs when new day)
         if (current != previous) {
             wipe();
@@ -83,6 +84,7 @@ $(document).ready(function(){
     // sets current time in jumbotron
     currentTime();
     // repeats function so that time is always current
+    // Also changes page appearance depending on time
     setInterval(currentTime, 1000);
 
     // For loop checks local storage for data on all boxes
